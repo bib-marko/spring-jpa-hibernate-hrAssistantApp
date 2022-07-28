@@ -1,0 +1,18 @@
+package com.example.candidaterestv2.service;
+
+import com.example.candidaterestv2.model.Candidate;
+
+import java.util.List;
+import java.util.Map;
+
+public interface CandidateService {
+    Candidate insertCandidate(Candidate candidate);
+
+    Candidate updateCandidate(Candidate candidate);
+
+    Map<String, Boolean> deleteCandidate(Long id);
+
+    List<Candidate> getCandidates();
+
+    Candidate findCandidateById(Long id);
+}
