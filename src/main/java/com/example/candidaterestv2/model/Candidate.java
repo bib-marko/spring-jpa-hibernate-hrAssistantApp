@@ -1,14 +1,15 @@
 package com.example.candidaterestv2.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-
 import java.util.Date;
 
 @AllArgsConstructor
@@ -85,6 +86,10 @@ public class Candidate {
     public void onPrePersist() {
         setCreatedAt(new Date());
         setUpdatedAt(new Date());
+    }
+    @PreUpdate
+    public void onPreUpdate () {
+        setUpdatedAt (new Date ());
     }
 
 }

@@ -4,6 +4,7 @@ import com.example.candidaterestv2.model.Candidate;
 import com.example.candidaterestv2.service.CandidateService;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,8 +24,6 @@ public class CandidateController {
     @PostMapping("/save")
     public Candidate createCandidate(@Valid @RequestBody Candidate candidate)
     {
-
-        log.info("The candidate is valid");
         return candidateService.insertCandidate(candidate);
     }
 
@@ -35,15 +34,16 @@ public class CandidateController {
     }
 
     @PutMapping("/update/{id}")
-    public String updateCandidate(@PathVariable Long id)
+    public Candidate updateCandidate(@PathVariable Long id, @Valid @RequestBody Candidate candidate)
     {
-        return "The bulutut dibays is kinekted seksespuley";
+        candidate.setId(id);
+        return candidateService.updateCandidate(candidate);
     }
 
     @DeleteMapping("/delete/{id}")
-    public String deleteCandidate(@PathVariable Long id)
+    public ResponseEntity<String> deleteCandidate(@PathVariable Long id)
     {
-        return "The bulutut dibays is kinekted seksespuley";
+        return candidateService.deleteCandidate(id);
     }
 
 

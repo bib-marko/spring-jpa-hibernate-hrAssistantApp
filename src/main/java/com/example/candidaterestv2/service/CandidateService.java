@@ -1,6 +1,7 @@
 package com.example.candidaterestv2.service;
 
 import com.example.candidaterestv2.model.Candidate;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -10,9 +11,8 @@ public interface CandidateService {
 
     Candidate updateCandidate(Candidate candidate);
 
-    Map<String, Boolean> deleteCandidate(Long id);
+    ResponseEntity<String> deleteCandidate(Long id);
 
     List<Candidate> getCandidates();
 
-    Candidate findCandidateById(Long id);
 }
