@@ -3,7 +3,7 @@ package com.example.candidaterestv2.controller;
 import com.example.candidaterestv2.model.Candidate;
 import com.example.candidaterestv2.service.CandidateService;
 import lombok.extern.slf4j.Slf4j;
-
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +12,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("candidate/")
+@RequestMapping("/api/candidate/")
 public class CandidateController {
 
     private final CandidateService candidateService;
@@ -31,6 +31,14 @@ public class CandidateController {
     public List<Candidate> getAllCandidate()
     {
         return candidateService.getCandidates();
+    }
+
+    @GetMapping("/pages/")
+    public Page<Candidate> getCandidateWithPagination(@RequestParam(name = "page_number")  int offset, @RequestParam(name = "page_size") int pageSize)
+    {
+        Page<Candidate> candidateWithPagination = candidateService.getCandidateWithPagination(--offset, pageSize);
+        return candidateWithPagination;
+        //return candidateService.getCandidates();
     }
 
     @PutMapping("/update/{id}")
