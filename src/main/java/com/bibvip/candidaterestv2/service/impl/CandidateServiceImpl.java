@@ -1,19 +1,18 @@
-package com.example.candidaterestv2.service.impl;
+package com.bibvip.candidaterestv2.service.impl;
 
-import com.example.candidaterestv2.advice.EntityAlreadyExistException;
-import com.example.candidaterestv2.advice.EntityNotFoundException;
-import com.example.candidaterestv2.model.Candidate;
-import com.example.candidaterestv2.repository.CandidateRepository;
-import com.example.candidaterestv2.service.CandidateService;
+import com.bibvip.candidaterestv2.advice.EntityAlreadyExistException;
+import com.bibvip.candidaterestv2.model.Candidate;
+import com.bibvip.candidaterestv2.model.ListOrPageOption;
+import com.bibvip.candidaterestv2.repository.CandidateRepository;
+import com.bibvip.candidaterestv2.service.CandidateService;
+import com.bibvip.candidaterestv2.advice.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,8 +55,10 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public List<Candidate> getCandidates() {
-        return candidateRepository.findAll();
+    public List<Candidate> getCandidates(ListOrPageOption listOrPageOption) {
+        String position = listOrPageOption.getPositionFilter();
+        String fullName = listOrPageOption.getFullNameSearch();
+        return candidateRepository.findAll(fullName, position);
     }
 
     @Override
@@ -71,17 +72,17 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public Page<Candidate> getCandidateWithPagination(int offset, int pageSize) {
-        Page<Candidate> candidates = candidateRepository.findAll(PageRequest.of(offset,pageSize));
+    public Page<Candidate> getCandidateWithPaginationAndFilters(ListOrPageOption listOrPageOption) {
+        Integer offset = listOrPageOption.getOffset();
+        Integer pageSize = listOrPageOption.getPageSize();
+        String position = listOrPageOption.getPositionFilter();
+        String fullName = listOrPageOption.getFullNameSearch();
+
+        Page<Candidate> candidates = candidateRepository.findAll(fullName, position, PageRequest.of(offset,pageSize));
 
         return candidates;
     }
 
-    @Override
-    public Page<Candidate> getCandidateWithPaginationAndSort(int offset, int pageSize, String sort) {
-        Page<Candidate> candidates = candidateRepository.findAll(PageRequest.of(offset,pageSize).withSort(Sort.by(sort)));
-        return candidates;
-    }
 
 }
 

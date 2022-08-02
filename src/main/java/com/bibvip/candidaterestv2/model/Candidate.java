@@ -1,4 +1,4 @@
-package com.example.candidaterestv2.model;
+package com.bibvip.candidaterestv2.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

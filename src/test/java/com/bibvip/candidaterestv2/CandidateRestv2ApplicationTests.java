@@ -1,4 +1,4 @@
-package com.example.candidaterestv2;
+package com.bibvip.candidaterestv2;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

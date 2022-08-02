@@ -1,7 +1,7 @@
-package com.example.candidaterestv2.controller;
+package com.bibvip.candidaterestv2.controller;
 
-import com.example.candidaterestv2.model.Company;
-import com.example.candidaterestv2.service.CompanyService;
+import com.bibvip.candidaterestv2.model.Company;
+import com.bibvip.candidaterestv2.service.CompanyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 

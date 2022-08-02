@@ -1,8 +1,7 @@
-package com.example.candidaterestv2;
+package com.bibvip.candidaterestv2;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
 
