@@ -43,7 +43,7 @@ public class CandidateController {
     }
 
     @GetMapping("/list")
-    public List<Candidate> getAllCandidate(@RequestParam Optional<String> position, @RequestParam("full_name") Optional<String> fullName)
+    public List<Candidate> getAllCandidateWithFilters(@RequestParam Optional<String> position, @RequestParam("full_name") Optional<String> fullName)
     {
         ListOrPageOption listOrPageOption = new ListOrPageOption();
         listOrPageOption.setPositionFilter(position.orElse(" "));
