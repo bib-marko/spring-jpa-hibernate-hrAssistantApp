@@ -43,12 +43,12 @@ public class CandidateController {
     }
 
     @GetMapping("/list")
-    public List<Candidate> getAllCandidateWithFilters(@RequestParam Optional<String> position, @RequestParam("full_name") Optional<String> fullName)
+    public List<String> getAllCandidateEmailWithFilters(@RequestParam Optional<String> position, @RequestParam("full_name") Optional<String> fullName)
     {
         ListOrPageOption listOrPageOption = new ListOrPageOption();
         listOrPageOption.setPositionFilter(position.orElse(" "));
         listOrPageOption.setFullNameSearch(fullName.orElse(" "));
-        return candidateService.getCandidates(listOrPageOption);
+        return candidateService.getCandidatesEmail(listOrPageOption);
     }
 
 

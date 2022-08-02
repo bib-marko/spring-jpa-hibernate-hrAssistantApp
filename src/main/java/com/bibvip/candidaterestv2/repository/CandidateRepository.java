@@ -21,7 +21,7 @@ public interface CandidateRepository extends JpaRepository<Candidate, Long> {
             "where c.fullName like concat('%', ?1, '%') and c.position like concat('%', ?2, '%')")
     Page<Candidate> findAll(String fullName, String position, Pageable pageable);
 
-    @Query("select c from Candidate c " +
+    @Query("select c.email from Candidate c " +
             "where c.fullName like concat('%', ?1, '%') and c.position like concat('%', ?2, '%')")
-    List<Candidate> findAll(String fullName, String position);
+    List<String> findAll(String fullName, String position);
 }

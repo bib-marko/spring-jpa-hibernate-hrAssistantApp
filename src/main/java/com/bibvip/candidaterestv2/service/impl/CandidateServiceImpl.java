@@ -55,20 +55,10 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public List<Candidate> getCandidates(ListOrPageOption listOrPageOption) {
+    public List<String> getCandidatesEmail(ListOrPageOption listOrPageOption) {
         String position = listOrPageOption.getPositionFilter();
         String fullName = listOrPageOption.getFullNameSearch();
         return candidateRepository.findAll(fullName, position);
-    }
-
-    @Override
-    public List<Candidate> getCandidatesByPosition(String position) {
-        return candidateRepository.findByPosition(position);
-    }
-
-    @Override
-    public List<Candidate> getCandidatesByFullName(String fullName) {
-        return candidateRepository.findByFullNameContaining(fullName);
     }
 
     @Override

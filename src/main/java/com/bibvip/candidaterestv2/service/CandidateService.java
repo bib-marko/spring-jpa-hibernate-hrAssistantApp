@@ -14,11 +14,7 @@ public interface CandidateService {
 
     ResponseEntity<String> deleteCandidate(Long id);
 
-    List<Candidate> getCandidates(ListOrPageOption listOrPageOption);
-
-    List<Candidate> getCandidatesByPosition(String position);
-
-    List<Candidate> getCandidatesByFullName(String fullName);
+    List<String> getCandidatesEmail(ListOrPageOption listOrPageOption);
 
     Page<Candidate> getCandidateWithPaginationAndFilters(ListOrPageOption listOrPageOption);
 
