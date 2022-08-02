@@ -17,5 +17,13 @@ public interface CandidateService {
 
     List<Candidate> getCandidates();
 
+    List<Candidate> getCandidatesByPosition(String position);
+
+    List<Candidate> getCandidatesByFullName(String fullName);
+
     Page<Candidate> getCandidateWithPagination(int offset, int pageSize);
+
+    //Page<Candidate> getCandidateWithPaginationAndSearch(int offset, int pageSize, String search);
+
+    Page<Candidate> getCandidateWithPaginationAndSort(int offset, int pageSize, String sort);
 }

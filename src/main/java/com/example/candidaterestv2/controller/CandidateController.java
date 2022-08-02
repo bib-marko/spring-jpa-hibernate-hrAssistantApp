@@ -27,20 +27,6 @@ public class CandidateController {
         return candidateService.insertCandidate(candidate);
     }
 
-    @GetMapping("/list")
-    public List<Candidate> getAllCandidate()
-    {
-        return candidateService.getCandidates();
-    }
-
-    @GetMapping("/pages/")
-    public Page<Candidate> getCandidateWithPagination(@RequestParam(name = "page_number")  int offset, @RequestParam(name = "page_size") int pageSize)
-    {
-        Page<Candidate> candidateWithPagination = candidateService.getCandidateWithPagination(--offset, pageSize);
-        return candidateWithPagination;
-        //return candidateService.getCandidates();
-    }
-
     @PutMapping("/update/{id}")
     public Candidate updateCandidate(@PathVariable Long id, @Valid @RequestBody Candidate candidate)
     {
@@ -52,6 +38,37 @@ public class CandidateController {
     public ResponseEntity<String> deleteCandidate(@PathVariable Long id)
     {
         return candidateService.deleteCandidate(id);
+    }
+
+    @GetMapping("/list")
+    public List<Candidate> getAllCandidate()
+    {
+        return candidateService.getCandidates();
+    }
+
+    @GetMapping("/list/position/{position}")
+    public List<Candidate> getAllCandidateByPosition(@PathVariable String position)
+    {
+        return candidateService.getCandidatesByPosition(position);
+    }
+
+    @GetMapping("/list/full_name/{full_name}")
+    public List<Candidate> getAllCandidateByFullName(@PathVariable("full_name") String fullName)
+    {
+        return candidateService.getCandidatesByFullName(fullName);
+    }
+
+    @GetMapping("/pagination/{offset}/{pageSize}")
+    public Page<Candidate> getCandidateWithPagination(@PathVariable int offset, @PathVariable int pageSize)
+    {
+        Page<Candidate> candidateWithPagination = candidateService.getCandidateWithPagination(--offset, pageSize);
+        return candidateWithPagination;
+    }
+    @GetMapping("/pagination/{offset}/{pageSize}/{sort}")
+    public Page<Candidate> getCandidateWithPaginationAndSort(@PathVariable int offset, @PathVariable int pageSize, @PathVariable String sort)
+    {
+        Page<Candidate> candidateWithPagination = candidateService.getCandidateWithPaginationAndSort(--offset, pageSize, sort);
+        return candidateWithPagination;
     }
 
 

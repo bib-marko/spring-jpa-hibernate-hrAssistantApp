@@ -5,12 +5,15 @@ import com.example.candidaterestv2.advice.EntityNotFoundException;
 import com.example.candidaterestv2.model.Candidate;
 import com.example.candidaterestv2.repository.CandidateRepository;
 import com.example.candidaterestv2.service.CandidateService;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,12 +28,11 @@ public class CandidateServiceImpl implements CandidateService {
 
     @Override
     public Candidate insertCandidate(Candidate candidate) {
-        Candidate existingCandidate = candidateRepository.findByUuid(candidate.getUuid());
-        if(existingCandidate != null) {
-            String message = "Candidate uuid ["+candidate.getUuid()+"] already exist";
-            throw new EntityAlreadyExistException(message);
+        try{
+            return candidateRepository.save(candidate);
+        }catch (DataIntegrityViolationException e){
+            throw new EntityAlreadyExistException("Candidate uuid ["+candidate.getUuid()+"] already exist");
         }
-        return candidateRepository.save(candidate);
     }
 
     @Override
@@ -59,8 +61,25 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
+    public List<Candidate> getCandidatesByPosition(String position) {
+        return candidateRepository.findByPosition(position);
+    }
+
+    @Override
+    public List<Candidate> getCandidatesByFullName(String fullName) {
+        return candidateRepository.findByFullNameContaining(fullName);
+    }
+
+    @Override
     public Page<Candidate> getCandidateWithPagination(int offset, int pageSize) {
         Page<Candidate> candidates = candidateRepository.findAll(PageRequest.of(offset,pageSize));
+
+        return candidates;
+    }
+
+    @Override
+    public Page<Candidate> getCandidateWithPaginationAndSort(int offset, int pageSize, String sort) {
+        Page<Candidate> candidates = candidateRepository.findAll(PageRequest.of(offset,pageSize).withSort(Sort.by(sort)));
         return candidates;
     }
 
