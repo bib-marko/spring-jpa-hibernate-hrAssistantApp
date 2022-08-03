@@ -54,5 +54,15 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_ACCEPTABLE);
     }
 
+    @ExceptionHandler(TemplateTitleErrorException.class)
+    public ResponseEntity<?> handleValidationExceptions(TemplateTitleErrorException exception){
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(TemplateNotExistingErrorException.class)
+    public ResponseEntity<?> handleValidationExceptions(TemplateNotExistingErrorException exception){
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
 }
 
