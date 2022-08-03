@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -24,6 +25,10 @@ public class Company{
     @Column(columnDefinition = "MEDIUMTEXT")
     @NotBlank(message = "Company information is required to fill up")
     private String information;
+
+    @NotBlank(message = "Company website is required to fill up")
+    @URL
+    private String website;
 
     @Column(columnDefinition = "MEDIUMTEXT")
     @NotBlank(message = "Company disclaimer is required to fill up")
