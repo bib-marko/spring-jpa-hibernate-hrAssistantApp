@@ -1,4 +1,4 @@
-package com.bibvip.candidaterestv2.advice;
+package com.bibvip.hrassistantapp.advice;
 
 public class EntityNotFoundException extends RuntimeException{
     public EntityNotFoundException(String message) {

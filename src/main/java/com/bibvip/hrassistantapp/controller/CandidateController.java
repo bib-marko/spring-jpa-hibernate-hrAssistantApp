@@ -1,9 +1,9 @@
-package com.bibvip.candidaterestv2.controller;
+package com.bibvip.hrassistantapp.controller;
 
-import com.bibvip.candidaterestv2.model.Candidate;
-import com.bibvip.candidaterestv2.model.ListOption;
-import com.bibvip.candidaterestv2.model.PageOption;
-import com.bibvip.candidaterestv2.service.CandidateService;
+import com.bibvip.hrassistantapp.model.Candidate;
+import com.bibvip.hrassistantapp.model.ListOption;
+import com.bibvip.hrassistantapp.model.PageOption;
+import com.bibvip.hrassistantapp.service.CandidateService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +11,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import java.util.List;
 import java.util.Optional;
 

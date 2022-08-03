@@ -1,12 +1,12 @@
-package com.bibvip.candidaterestv2.service.impl;
+package com.bibvip.hrassistantapp.service.impl;
 
-import com.bibvip.candidaterestv2.advice.EntityAlreadyExistException;
-import com.bibvip.candidaterestv2.model.Candidate;
-import com.bibvip.candidaterestv2.model.ListOption;
-import com.bibvip.candidaterestv2.model.PageOption;
-import com.bibvip.candidaterestv2.repository.CandidateRepository;
-import com.bibvip.candidaterestv2.service.CandidateService;
-import com.bibvip.candidaterestv2.advice.EntityNotFoundException;
+import com.bibvip.hrassistantapp.advice.EntityAlreadyExistException;
+import com.bibvip.hrassistantapp.model.Candidate;
+import com.bibvip.hrassistantapp.model.ListOption;
+import com.bibvip.hrassistantapp.model.PageOption;
+import com.bibvip.hrassistantapp.repository.CandidateRepository;
+import com.bibvip.hrassistantapp.service.CandidateService;
+import com.bibvip.hrassistantapp.advice.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

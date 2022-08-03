@@ -1,4 +1,4 @@
-package com.bibvip.candidaterestv2.model;
+package com.bibvip.hrassistantapp.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDate;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -46,7 +47,7 @@ public class Candidate {
 
     @Column(nullable = false)
     @JsonProperty("date_endorsed")
-    private Date dateEndorsed;
+    private LocalDate dateEndorsed;
 
     @Column(name = "overall_status", nullable = false)
     @JsonProperty("overall_status")
@@ -59,7 +60,7 @@ public class Candidate {
     private String paperScreeningStatus;
 
     @JsonProperty("tech_interview_schedule")
-    private Date techInterviewSchedule;
+    private LocalDate techInterviewSchedule;
 
     @JsonProperty("interview_result")
     private String interviewResult;
@@ -68,10 +69,10 @@ public class Candidate {
     private String offerStatus;
 
     @JsonProperty("offer_date")
-    private Date offerDate;
+    private LocalDate offerDate;
 
     @JsonProperty("on_boarding_date")
-    private Date onBoardingDate;
+    private LocalDate onBoardingDate;
 
     @JsonProperty("is_rejection_email_sent")
     private Boolean isRejectionEmailSent;

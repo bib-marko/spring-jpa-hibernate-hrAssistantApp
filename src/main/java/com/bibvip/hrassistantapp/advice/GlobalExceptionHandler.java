@@ -1,4 +1,4 @@
-package com.bibvip.candidaterestv2.advice;
+package com.bibvip.hrassistantapp.advice;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

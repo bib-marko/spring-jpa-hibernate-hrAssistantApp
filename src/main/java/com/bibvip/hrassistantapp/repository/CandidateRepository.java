@@ -1,6 +1,6 @@
-package com.bibvip.candidaterestv2.repository;
+package com.bibvip.hrassistantapp.repository;
 
-import com.bibvip.candidaterestv2.model.Candidate;
+import com.bibvip.hrassistantapp.model.Candidate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

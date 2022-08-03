@@ -1,6 +1,6 @@
-package com.bibvip.candidaterestv2.service;
+package com.bibvip.hrassistantapp.service;
 
-import com.bibvip.candidaterestv2.model.Company;
+import com.bibvip.hrassistantapp.model.Company;
 
 import java.util.Optional;
 

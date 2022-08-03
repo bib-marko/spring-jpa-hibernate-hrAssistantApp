@@ -1,8 +1,8 @@
-package com.bibvip.candidaterestv2.service.impl;
+package com.bibvip.hrassistantapp.service.impl;
 
-import com.bibvip.candidaterestv2.model.Company;
-import com.bibvip.candidaterestv2.repository.CompanyRepository;
-import com.bibvip.candidaterestv2.service.CompanyService;
+import com.bibvip.hrassistantapp.model.Company;
+import com.bibvip.hrassistantapp.repository.CompanyRepository;
+import com.bibvip.hrassistantapp.service.CompanyService;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.stereotype.Service;
 

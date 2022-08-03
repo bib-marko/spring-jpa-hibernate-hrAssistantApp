@@ -1,4 +1,4 @@
-package com.bibvip.candidaterestv2.model;
+package com.bibvip.hrassistantapp.model;
 
 import lombok.Data;
 

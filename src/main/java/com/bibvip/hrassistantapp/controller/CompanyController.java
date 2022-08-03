@@ -1,7 +1,7 @@
-package com.bibvip.candidaterestv2.controller;
+package com.bibvip.hrassistantapp.controller;
 
-import com.bibvip.candidaterestv2.model.Company;
-import com.bibvip.candidaterestv2.service.CompanyService;
+import com.bibvip.hrassistantapp.model.Company;
+import com.bibvip.hrassistantapp.service.CompanyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 

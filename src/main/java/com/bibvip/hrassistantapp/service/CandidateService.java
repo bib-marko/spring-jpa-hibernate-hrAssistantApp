@@ -1,8 +1,8 @@
-package com.bibvip.candidaterestv2.service;
+package com.bibvip.hrassistantapp.service;
 
-import com.bibvip.candidaterestv2.model.Candidate;
-import com.bibvip.candidaterestv2.model.ListOption;
-import com.bibvip.candidaterestv2.model.PageOption;
+import com.bibvip.hrassistantapp.model.Candidate;
+import com.bibvip.hrassistantapp.model.ListOption;
+import com.bibvip.hrassistantapp.model.PageOption;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 

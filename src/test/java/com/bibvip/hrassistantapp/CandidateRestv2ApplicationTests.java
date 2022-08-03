@@ -1,4 +1,4 @@
-package com.bibvip.candidaterestv2;
+package com.bibvip.hrassistantapp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
