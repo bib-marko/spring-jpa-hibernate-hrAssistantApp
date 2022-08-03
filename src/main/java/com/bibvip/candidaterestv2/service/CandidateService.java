@@ -1,7 +1,8 @@
 package com.bibvip.candidaterestv2.service;
 
 import com.bibvip.candidaterestv2.model.Candidate;
-import com.bibvip.candidaterestv2.model.ListOrPageOption;
+import com.bibvip.candidaterestv2.model.ListOption;
+import com.bibvip.candidaterestv2.model.PageOption;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 
@@ -14,9 +15,9 @@ public interface CandidateService {
 
     ResponseEntity<String> deleteCandidate(Long id);
 
-    List<String> getCandidatesEmail(ListOrPageOption listOrPageOption);
+    List<String> getCandidatesEmail(ListOption listOption);
 
-    Page<Candidate> getCandidateWithPaginationAndFilters(ListOrPageOption listOrPageOption);
+    Page<Candidate> getCandidateWithPaginationAndFilters(PageOption pageOption);
 
 
 }

@@ -3,9 +3,7 @@ package com.bibvip.candidaterestv2.model;
 import lombok.Data;
 
 @Data
-public class ListOrPageOption {
-    Integer offset;
-    Integer pageSize;
+public class ListOption {
     String positionFilter;
     String fullNameSearch;
 }

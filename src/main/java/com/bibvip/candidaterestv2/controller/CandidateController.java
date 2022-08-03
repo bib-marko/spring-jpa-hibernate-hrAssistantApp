@@ -1,7 +1,8 @@
 package com.bibvip.candidaterestv2.controller;
 
 import com.bibvip.candidaterestv2.model.Candidate;
-import com.bibvip.candidaterestv2.model.ListOrPageOption;
+import com.bibvip.candidaterestv2.model.ListOption;
+import com.bibvip.candidaterestv2.model.PageOption;
 import com.bibvip.candidaterestv2.service.CandidateService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -45,10 +46,10 @@ public class CandidateController {
     @GetMapping("/list")
     public List<String> getAllCandidateEmailWithFilters(@RequestParam Optional<String> position, @RequestParam("full_name") Optional<String> fullName)
     {
-        ListOrPageOption listOrPageOption = new ListOrPageOption();
-        listOrPageOption.setPositionFilter(position.orElse(" "));
-        listOrPageOption.setFullNameSearch(fullName.orElse(" "));
-        return candidateService.getCandidatesEmail(listOrPageOption);
+        ListOption listOption = new ListOption();
+        listOption.setPositionFilter(position.orElse(" "));
+        listOption.setFullNameSearch(fullName.orElse(" "));
+        return candidateService.getCandidatesEmail(listOption);
     }
 
 
@@ -56,13 +57,13 @@ public class CandidateController {
     public Page<Candidate> getCandidateWithPagination(@RequestParam Optional<Integer> offset, @RequestParam("page_size") Optional<Integer> pageSize,
                                                         @RequestParam Optional<String> position, @RequestParam("full_name") Optional<String> fullName )
     {
-        ListOrPageOption listOrPageOption = new ListOrPageOption();
-        listOrPageOption.setOffset(offset.orElse(0));
-        listOrPageOption.setPageSize(pageSize.orElse(10));
-        listOrPageOption.setPositionFilter(position.orElse(" "));
-        listOrPageOption.setFullNameSearch(fullName.orElse(" "));
+        PageOption pageOption = new PageOption();
+        pageOption.setOffset(offset.orElse(0));
+        pageOption.setPageSize(pageSize.orElse(10));
+        pageOption.setPositionFilter(position.orElse(" "));
+        pageOption.setFullNameSearch(fullName.orElse(" "));
 
-        Page<Candidate> candidateWithPagination = candidateService.getCandidateWithPaginationAndFilters(listOrPageOption);
+        Page<Candidate> candidateWithPagination = candidateService.getCandidateWithPaginationAndFilters(pageOption);
         return candidateWithPagination;
     }
 }

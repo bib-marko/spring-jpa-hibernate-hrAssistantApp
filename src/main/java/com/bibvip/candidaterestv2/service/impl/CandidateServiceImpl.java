@@ -2,7 +2,8 @@ package com.bibvip.candidaterestv2.service.impl;
 
 import com.bibvip.candidaterestv2.advice.EntityAlreadyExistException;
 import com.bibvip.candidaterestv2.model.Candidate;
-import com.bibvip.candidaterestv2.model.ListOrPageOption;
+import com.bibvip.candidaterestv2.model.ListOption;
+import com.bibvip.candidaterestv2.model.PageOption;
 import com.bibvip.candidaterestv2.repository.CandidateRepository;
 import com.bibvip.candidaterestv2.service.CandidateService;
 import com.bibvip.candidaterestv2.advice.EntityNotFoundException;
@@ -55,18 +56,18 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public List<String> getCandidatesEmail(ListOrPageOption listOrPageOption) {
-        String position = listOrPageOption.getPositionFilter();
-        String fullName = listOrPageOption.getFullNameSearch();
+    public List<String> getCandidatesEmail(ListOption listOption) {
+        String position = listOption.getPositionFilter();
+        String fullName = listOption.getFullNameSearch();
         return candidateRepository.findAll(fullName, position);
     }
 
     @Override
-    public Page<Candidate> getCandidateWithPaginationAndFilters(ListOrPageOption listOrPageOption) {
-        Integer offset = listOrPageOption.getOffset();
-        Integer pageSize = listOrPageOption.getPageSize();
-        String position = listOrPageOption.getPositionFilter();
-        String fullName = listOrPageOption.getFullNameSearch();
+    public Page<Candidate> getCandidateWithPaginationAndFilters(PageOption pageOption) {
+        Integer offset = pageOption.getOffset();
+        Integer pageSize = pageOption.getPageSize();
+        String position = pageOption.getPositionFilter();
+        String fullName = pageOption.getFullNameSearch();
 
         Page<Candidate> candidates = candidateRepository.findAll(fullName, position, PageRequest.of(offset,pageSize));
 
