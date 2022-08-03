@@ -5,10 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 
-public class CandidateRestv2Application {
+public class HrAssistantApp {
 
     public static void main(String[] args) {
-        SpringApplication.run(CandidateRestv2Application.class, args);
+        SpringApplication.run(HrAssistantApp.class, args);
     }
 
 }
