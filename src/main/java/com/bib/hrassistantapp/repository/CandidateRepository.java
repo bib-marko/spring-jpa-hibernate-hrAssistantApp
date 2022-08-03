@@ -1,6 +1,6 @@
-package com.bibvip.hrassistantapp.repository;
+package com.bib.hrassistantapp.repository;
 
-import com.bibvip.hrassistantapp.model.Candidate;
+import com.bib.hrassistantapp.model.Candidate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,9 +1,9 @@
-package com.bibvip.hrassistantapp.controller;
+package com.bib.hrassistantapp.controller;
 
-import com.bibvip.hrassistantapp.model.Candidate;
-import com.bibvip.hrassistantapp.model.ListOption;
-import com.bibvip.hrassistantapp.model.PageOption;
-import com.bibvip.hrassistantapp.service.CandidateService;
+import com.bib.hrassistantapp.model.ListOption;
+import com.bib.hrassistantapp.model.Candidate;
+import com.bib.hrassistantapp.model.PageOption;
+import com.bib.hrassistantapp.service.CandidateService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;

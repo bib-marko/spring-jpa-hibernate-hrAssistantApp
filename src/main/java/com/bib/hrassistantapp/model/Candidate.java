@@ -1,4 +1,4 @@
-package com.bibvip.hrassistantapp.model;
+package com.bib.hrassistantapp.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

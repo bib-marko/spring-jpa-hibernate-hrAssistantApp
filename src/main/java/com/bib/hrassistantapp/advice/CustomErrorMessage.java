@@ -1,4 +1,4 @@
-package com.bibvip.hrassistantapp.advice;
+package com.bib.hrassistantapp.advice;
 
 import lombok.Data;
 

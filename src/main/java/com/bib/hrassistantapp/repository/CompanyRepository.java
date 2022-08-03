@@ -1,6 +1,6 @@
-package com.bibvip.hrassistantapp.repository;
+package com.bib.hrassistantapp.repository;
 
-import com.bibvip.hrassistantapp.model.Company;
+import com.bib.hrassistantapp.model.Company;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

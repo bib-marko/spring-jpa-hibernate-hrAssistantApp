@@ -1,6 +1,6 @@
-package com.bibvip.hrassistantapp.service;
+package com.bib.hrassistantapp.service;
 
-import com.bibvip.hrassistantapp.model.Company;
+import com.bib.hrassistantapp.model.Company;
 
 import java.util.Optional;
 

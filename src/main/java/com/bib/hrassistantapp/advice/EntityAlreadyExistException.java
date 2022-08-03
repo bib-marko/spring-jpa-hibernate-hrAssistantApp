@@ -1,4 +1,4 @@
-package com.bibvip.hrassistantapp.advice;
+package com.bib.hrassistantapp.advice;
 
 public class EntityAlreadyExistException extends RuntimeException{
     public EntityAlreadyExistException(String message) {
