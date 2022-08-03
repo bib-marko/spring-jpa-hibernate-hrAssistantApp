@@ -13,6 +13,7 @@ import java.util.List;
 @Repository
 public interface CandidateRepository extends JpaRepository<Candidate, Long> {
 
+    @Query("select c from Candidate c where c.position = ?1")
     List<Candidate> findByPosition(String position);
 
     List<Candidate> findByFullNameContaining(String fullName);
@@ -21,7 +22,8 @@ public interface CandidateRepository extends JpaRepository<Candidate, Long> {
             "where c.fullName like concat('%', ?1, '%') and c.position like concat('%', ?2, '%')")
     Page<Candidate> findAll(String fullName, String position, Pageable pageable);
 
-    @Query("select c.email from Candidate c " +
-            "where c.fullName like concat('%', ?1, '%') and c.position like concat('%', ?2, '%')")
-    List<String> findAll(String fullName, String position);
+    @Query("select c from Candidate c " +
+            "where c.fullName like concat('%', ?1, '%') and c.position like concat('%', ?2, '%') and c.overallStatus like concat('%', ?3, '%')")
+    List<Candidate> findAll(String fullName, String position, String overallStatus);
+
 }

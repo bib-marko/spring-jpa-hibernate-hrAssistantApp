@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class PageOption extends ListOption{
-    Integer offset;
+    Integer page;
     Integer pageSize;
 }

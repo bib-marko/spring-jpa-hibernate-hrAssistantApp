@@ -56,20 +56,21 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public List<String> getCandidatesEmail(ListOption listOption) {
+    public List<Candidate> getCandidatesEmail(ListOption listOption) {
         String position = listOption.getPositionFilter();
         String fullName = listOption.getFullNameSearch();
-        return candidateRepository.findAll(fullName, position);
+        String overallStatus = listOption.getOverallStatusFilter();
+        return candidateRepository.findAll(fullName, position,overallStatus);
     }
 
     @Override
     public Page<Candidate> getCandidateWithPaginationAndFilters(PageOption pageOption) {
-        Integer offset = pageOption.getOffset();
+        Integer page = pageOption.getPage();
         Integer pageSize = pageOption.getPageSize();
         String position = pageOption.getPositionFilter();
         String fullName = pageOption.getFullNameSearch();
 
-        Page<Candidate> candidates = candidateRepository.findAll(fullName, position, PageRequest.of(offset,pageSize));
+        Page<Candidate> candidates = candidateRepository.findAll(fullName, position, PageRequest.of(--page,pageSize));
 
         return candidates;
     }
