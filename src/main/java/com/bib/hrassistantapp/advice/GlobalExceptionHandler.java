@@ -49,6 +49,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity(error, HttpStatus.NOT_ACCEPTABLE);
     }
 
+    @ExceptionHandler(value = InvalidExcelException.class)
+    public ResponseEntity<Object> exception (InvalidExcelException exception){
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+    }
 
 }
 

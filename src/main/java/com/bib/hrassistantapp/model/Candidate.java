@@ -47,7 +47,7 @@ public class Candidate {
 
     @Column(nullable = false)
     @JsonProperty("date_endorsed")
-    private LocalDate dateEndorsed;
+    private Date dateEndorsed;
 
     @Column(name = "overall_status", nullable = false)
     @JsonProperty("overall_status")
@@ -60,7 +60,7 @@ public class Candidate {
     private String paperScreeningStatus;
 
     @JsonProperty("tech_interview_schedule")
-    private LocalDate techInterviewSchedule;
+    private Date techInterviewSchedule;
 
     @JsonProperty("interview_result")
     private String interviewResult;
@@ -69,10 +69,10 @@ public class Candidate {
     private String offerStatus;
 
     @JsonProperty("offer_date")
-    private LocalDate offerDate;
+    private Date offerDate;
 
     @JsonProperty("on_boarding_date")
-    private LocalDate onBoardingDate;
+    private Date onBoardingDate;
 
     @JsonProperty("is_rejection_email_sent")
     private Boolean isRejectionEmailSent;
