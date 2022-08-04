@@ -8,7 +8,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
-
 @Entity
 @Getter
 @Setter
@@ -18,7 +17,7 @@ import java.util.Date;
 public class Template {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -27,9 +26,9 @@ public class Template {
     @NotBlank
     private String title;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "LONGTEXT")
     @JsonProperty("body")
-    @NotBlank
+    @NotBlank(message = "Please provide HTML content data here!")
     private String body;
 
     @Column(nullable = false)
@@ -50,5 +49,6 @@ public class Template {
     public void onPreUpdate () {
         this.setUpdatedAt(new Date());
     }
+
 
 }

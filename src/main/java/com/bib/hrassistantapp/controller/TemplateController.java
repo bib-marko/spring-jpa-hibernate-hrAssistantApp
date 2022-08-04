@@ -40,9 +40,10 @@ public class TemplateController {
         return templateService.updateEmailTemplate(template);
     }
 
-    @RequestMapping(value = "/index")
-    public static String welcome(){
-        return "index";
+    @GetMapping("/getEmailTemplate")
+    public List<String> getEmailTemplate(@RequestParam("title") String title)
+    {
+        return templateService.getEmailTemplate(title);
     }
 
 }

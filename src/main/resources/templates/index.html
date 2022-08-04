@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Email Template</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css"/>
+</head>
+<body>
+
+
+
+<div class="container">
+    <form>
+        <div style="text-align: center;"><H3 id="fromTitle">Add New Template</H3></div>
+        <div class="row">
+            <div class="col-25">
+                <p><label name="id" id="id" style="display: none;" disabled></label></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-25">
+                <label for="body">TITLE</label>
+            </div>
+            <div class="col-75">
+                <input type="text" name="title" id="title">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-25">
+                <label for="body">BODY</label>
+            </div>
+            <div class="col-75">
+                <textarea id="body" name="body" placeholder="Write something.." style="height:100px"></textarea>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-10">
+                <button id="btnAdd" class="button add" onclick="addNewBook()">Add New Template</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+    <table id="tbldata"></table>
+
+
+    <div class="split left">
+        <label for=data></label>
+        <textarea id=data style="width: 100%; height: 100%">
+<!--        HTML TEMPLATE HERE-->
+        </textarea>
+    </div>
+
+    <div class="split right">
+        <div class=controls>
+            <label>
+                <input type=checkbox id=realtime onclick="update()" checked>
+                realtime
+            </label>
+        </div>
+        <iframe name=hello style="position: absolute; height: 55%; width: 50%; border: none"></iframe>
+
+    </div>
+
+</body>
+<script src="/js/script.js"></script>
+</html>
+
+
+

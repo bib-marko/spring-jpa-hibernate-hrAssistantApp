@@ -64,5 +64,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(value = EmailSendingFailedException.class)
+    public ResponseEntity<Object> exception (EmailSendingFailedException exception){
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+    }
+
 }
 
