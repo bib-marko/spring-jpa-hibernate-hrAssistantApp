@@ -1,4 +1,4 @@
-package com.bib.hrassistantapp.model;
+package com.bib.hrassistantapp.utils;
 
 import lombok.Data;
 

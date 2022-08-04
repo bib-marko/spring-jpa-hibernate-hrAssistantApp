@@ -2,8 +2,8 @@ package com.bib.hrassistantapp.service.impl;
 
 import com.bib.hrassistantapp.advice.EntityAlreadyExistException;
 import com.bib.hrassistantapp.model.Candidate;
-import com.bib.hrassistantapp.model.ListOption;
-import com.bib.hrassistantapp.model.PageOption;
+import com.bib.hrassistantapp.utils.ListOption;
+import com.bib.hrassistantapp.utils.PageOption;
 import com.bib.hrassistantapp.repository.CandidateRepository;
 import com.bib.hrassistantapp.service.CandidateService;
 import com.bib.hrassistantapp.advice.EntityNotFoundException;

@@ -1,8 +1,8 @@
 package com.bib.hrassistantapp.service;
 
 import com.bib.hrassistantapp.model.Candidate;
-import com.bib.hrassistantapp.model.ListOption;
-import com.bib.hrassistantapp.model.PageOption;
+import com.bib.hrassistantapp.utils.ListOption;
+import com.bib.hrassistantapp.utils.PageOption;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 
