@@ -1,5 +1,6 @@
 package com.bib.hrassistantapp.service.impl;
 
+import com.bib.hrassistantapp.advice.CustomResponseMessage;
 import com.bib.hrassistantapp.advice.InvalidExcelException;
 import com.bib.hrassistantapp.model.Candidate;
 import com.bib.hrassistantapp.repository.XlsCandidateRepository;
@@ -13,11 +14,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class XlsCandidateServiceImpl implements XlsCandidateService {
@@ -35,9 +37,10 @@ public class XlsCandidateServiceImpl implements XlsCandidateService {
     }
 
     @Override
-    public ResponseEntity<List<Candidate>> importExcel(MultipartFile file) throws IOException {
+    public ResponseEntity<CustomResponseMessage> importExcel(MultipartFile file) throws IOException {
         List<Candidate> candidates = new ArrayList<>();
         List<Candidate> invalidCandidates = new ArrayList<>();
+        List<List> allCandidates;
 
         XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
 
@@ -84,8 +87,10 @@ public class XlsCandidateServiceImpl implements XlsCandidateService {
         else{
             throw new InvalidExcelException("The excel you tried to import is invalid.");
         }
-        xlsCandidateRepository.saveAll(candidates);
-        return new ResponseEntity<>(candidates, HttpStatus.OK);
+        allCandidates = checkIfValid(candidates, invalidCandidates);
+        xlsCandidateRepository.saveAll(allCandidates.get(0));
+
+        return new ResponseEntity<>(createCustomResponse(allCandidates), HttpStatus.OK);
     }
 
     public Candidate updateIfExisting(Candidate candidate){
@@ -99,5 +104,36 @@ public class XlsCandidateServiceImpl implements XlsCandidateService {
         return candidate;
 
     }
+    private List<List> checkIfValid(List<Candidate> candidates, List<Candidate> invalidCandidates){
+        List<List> superList = new ArrayList<>();
+        List<String> invalidList = new ArrayList<>();
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+
+        for (Candidate candidate: candidates) {
+            Set<ConstraintViolation<Candidate>> violations = validator.validate(candidate);
+            if(violations.size() != 0) {
+                String message = String.format("Candidate with uuid [%d] - This candidate has invalid field/s: ",candidate.getUuid());
+                for (ConstraintViolation<Candidate> violation : violations) {
+                    message += violation.getPropertyPath()+", ";
+                }
+                invalidCandidates.add(candidate);
+                invalidList.add(message);
+            }
+        }
+        candidates.removeAll(invalidCandidates);
+        superList.add(candidates);
+        superList.add(invalidList);
+        return superList;
+    }
+
+    private CustomResponseMessage createCustomResponse(List<List> allCandidates){
+        CustomResponseMessage cm = new CustomResponseMessage();
+        cm.setValid(allCandidates.get(0));
+        cm.setInvalid(allCandidates.get(1));
+        cm.setTimestamp(new Date());
+        return cm;
+    }
+
 
 }
