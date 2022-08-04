@@ -113,7 +113,7 @@ public class XlsCandidateServiceImpl implements XlsCandidateService {
         for (Candidate candidate: candidates) {
             Set<ConstraintViolation<Candidate>> violations = validator.validate(candidate);
             if(violations.size() != 0) {
-                String message = String.format("Candidate with uuid [%d] - This candidate has invalid field/s: ",candidate.getUuid());
+                String message = String.format("Candidate with ExcelID [%d] - This candidate has invalid field/s: ",candidate.getUuid());
                 for (ConstraintViolation<Candidate> violation : violations) {
                     message += violation.getPropertyPath()+", ";
                 }
