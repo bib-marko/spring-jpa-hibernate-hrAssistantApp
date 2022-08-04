@@ -9,5 +9,5 @@ public interface EmailService {
     ResponseEntity<String> sendSimpleMailWithCC(EmailDetails details);
     ResponseEntity<String> sendSimpleMailWithBCC(EmailDetails details);
     ResponseEntity<String> sendMailWithAttachment(EmailDetails details);
-    ResponseEntity<String> sendMailWithHTML(String position, String status, String subject, String template, String followUpDate);
+    ResponseEntity<String> sendMailWithHTML(String position, String status, String subject, String template, String followUpDate, String upDate);
 }
