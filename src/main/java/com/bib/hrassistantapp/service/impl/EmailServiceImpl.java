@@ -109,16 +109,17 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public ResponseEntity<String> sendMailWithHTML(String position, String template, String hr, String followUpDate, EmailDetails details) {
+    public ResponseEntity<String> sendMailWithHTML(String position, String status, String subject, String template, String followUpDate) {
 
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper;
         try {
             mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
             mimeMessageHelper.setFrom(sender);
-            mimeMessageHelper.setTo(EmailUtility.formatEmails(candidateRepository.findAll("", position, "")));
+            position = position.equals("all") ? " " : position;
+            mimeMessageHelper.setTo(EmailUtility.formatEmails(candidateRepository.findAll("", position, status)));
             mimeMessageHelper.setText(EmailUtility.formatHTMLbody(templateRepository.findTemplateTitle(template)), true);
-            mimeMessageHelper.setSubject(details.getSubject());
+            mimeMessageHelper.setSubject(subject);
             javaMailSender.send(mimeMessage);
             return new ResponseEntity<>("Mail sent Successfully", HttpStatus.OK);
         } catch (MessagingException e) {

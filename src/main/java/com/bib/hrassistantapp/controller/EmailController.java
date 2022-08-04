@@ -37,13 +37,13 @@ public class EmailController {
         return emailService.sendMailWithAttachment(details);
     }
 
-    @PostMapping("/send/{position}/{template}/{hr}/{followUpDate}")
+    @PostMapping("/send/{position}/{status}/{subject}/{template}/{followUpDate}")
     public ResponseEntity<String> sendHtmlEmail(@PathVariable(value = "position") String position,
+                                                @PathVariable(value = "status") String status,
+                                                @PathVariable(value = "subject") String subject,
                                                 @PathVariable(value = "template")String template,
-                                                @PathVariable(value = "hr") String hr,
-                                                @PathVariable(value = "followUpDate")String followUpDate,
-                                                @RequestBody EmailDetails details){
-        return emailService.sendMailWithHTML(position,template,hr,followUpDate,details);
+                                                @PathVariable(value = "followUpDate")String followUpDate){
+        return emailService.sendMailWithHTML(position,status,subject,template,followUpDate);
     }
 
 
