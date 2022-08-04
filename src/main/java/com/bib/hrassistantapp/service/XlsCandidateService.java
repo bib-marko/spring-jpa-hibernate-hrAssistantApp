@@ -1,5 +1,6 @@
 package com.bib.hrassistantapp.service;
 
+import com.bib.hrassistantapp.advice.CustomResponseMessage;
 import com.bib.hrassistantapp.model.Candidate;
 
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,6 @@ public interface XlsCandidateService {
 
     List<Candidate> findAll();
 
-    ResponseEntity<List<Candidate>> importExcel(MultipartFile file) throws IOException;
+    ResponseEntity<CustomResponseMessage> importExcel(MultipartFile file) throws IOException;
 
 }

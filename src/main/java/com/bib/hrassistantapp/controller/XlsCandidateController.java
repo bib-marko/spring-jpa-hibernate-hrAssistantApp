@@ -1,5 +1,6 @@
 package com.bib.hrassistantapp.controller;
 
+import com.bib.hrassistantapp.advice.CustomResponseMessage;
 import com.bib.hrassistantapp.model.Candidate;
 import com.bib.hrassistantapp.service.XlsCandidateService;
 import org.springframework.http.HttpStatus;
@@ -26,7 +27,7 @@ public class XlsCandidateController {
     }
 
     @PostMapping("/import/")
-    public ResponseEntity<List<Candidate>> importExcel(@RequestParam MultipartFile file) throws IOException {
+    public ResponseEntity<CustomResponseMessage> importExcel(@RequestParam MultipartFile file) throws IOException {
 
         return xlsCandidateService.importExcel(file);
 
