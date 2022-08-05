@@ -11,7 +11,8 @@ import java.util.Optional;
 @Component
 public interface XlsCandidateRepository extends JpaRepository<Candidate, Long> {
 
-    @Query(value = "SELECT c FROM Candidate c WHERE c.uuid = :uuid")
-    Optional<Candidate> findByUuid(@Param("uuid") Long uuid);
+    @Query("select x from Candidate x where x.email = :email")
+    Optional<Candidate> findByEmail(@Param("email") String email);
+
 
 }

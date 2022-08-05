@@ -26,7 +26,7 @@ public class Candidate {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private Long uuid;
 
     @Column(nullable = false)
@@ -41,7 +41,7 @@ public class Candidate {
     @JsonProperty("contact_number")
     private String contactNumber;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     @Email(message = "Email must be valid")
     private String email;
 

@@ -40,6 +40,8 @@ public class XlsCandidateServiceImpl implements XlsCandidateService {
     public ResponseEntity<CustomResponseMessage> importExcel(MultipartFile file) throws IOException {
         List<Candidate> candidates = new ArrayList<>();
         List<Candidate> invalidCandidates = new ArrayList<>();
+        List<Candidate> candidatesForUpdate = new ArrayList<>();
+        List<Candidate> candidatesForInsert = new ArrayList<>();
         List<List> allCandidates;
 
         XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream());
@@ -79,7 +81,18 @@ public class XlsCandidateServiceImpl implements XlsCandidateService {
                 candidate.setOnBoardingDate(ExcelUtility.getDateValue( workbook,row, 15));
 
 
-                candidates.add(updateIfExisting(candidate));
+
+                if(isValid(candidate)){
+                    Candidate validatedCandidate = updateIfExisting(candidate);
+                    if(validatedCandidate.getId() == null)
+                        candidatesForInsert.add(candidate);
+                    else
+                        candidatesForUpdate.add(candidate);
+                    candidates.add(validatedCandidate);
+                }
+                else{
+                    invalidCandidates.add(candidate);
+                }
 
             }
             workbook.close();
@@ -87,52 +100,69 @@ public class XlsCandidateServiceImpl implements XlsCandidateService {
         else{
             throw new InvalidExcelException("The excel you tried to import is invalid.");
         }
-        allCandidates = checkIfValid(candidates, invalidCandidates);
-        xlsCandidateRepository.saveAll(allCandidates.get(0));
+        allCandidates = addAllCandidates(candidates, candidatesForInsert, candidatesForUpdate, listErrors(invalidCandidates));
+        xlsCandidateRepository.saveAll(candidates);
 
         return new ResponseEntity<>(createCustomResponse(allCandidates), HttpStatus.OK);
     }
 
-    public Candidate updateIfExisting(Candidate candidate){
-        Optional<Candidate> existingCandidate = xlsCandidateRepository.findByUuid(candidate.getUuid());
+    private Candidate updateIfExisting(Candidate candidate){
+        Optional<Candidate> existingCandidate = xlsCandidateRepository.findByEmail(candidate.getEmail());
         if(!existingCandidate.isPresent())
             return candidate;
         candidate.setId(existingCandidate.get().getId());
-        candidate.setUuid(existingCandidate.get().getUuid());
         candidate.setCreatedAt(existingCandidate.get().getCreatedAt());
         candidate.setUpdatedAt(new Date());
         return candidate;
 
     }
-    private List<List> checkIfValid(List<Candidate> candidates, List<Candidate> invalidCandidates){
-        List<List> superList = new ArrayList<>();
-        List<String> invalidList = new ArrayList<>();
+    private List<String> listErrors(List<Candidate> invalidCandidates){
+        List<String> errors = new ArrayList<>();
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
 
-        for (Candidate candidate: candidates) {
-            Set<ConstraintViolation<Candidate>> violations = validator.validate(candidate);
-            if(violations.size() != 0) {
-                String message = String.format("Candidate with ExcelID [%d] - This candidate has invalid field/s: ",candidate.getUuid());
-                for (ConstraintViolation<Candidate> violation : violations) {
-                    message += violation.getPropertyPath()+", ";
-                }
-                invalidCandidates.add(candidate);
-                invalidList.add(message);
+        for (Candidate invalidCandidate: invalidCandidates) {
+            Set<ConstraintViolation<Candidate>> violations = validator.validate(invalidCandidate);
+            String message = String.format("Candidate with email [%s] - This candidate has invalid field/s: ",invalidCandidate.getEmail());
+            for (ConstraintViolation<Candidate> violation : violations) {
+                message += violation.getPropertyPath()+", ";
             }
+            errors.add(message);
         }
-        candidates.removeAll(invalidCandidates);
-        superList.add(candidates);
-        superList.add(invalidList);
-        return superList;
+        return errors;
+    }
+
+    private Boolean isValid(Candidate candidate){
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<Candidate>> violations = validator.validate(candidate);
+        if (violations.size() != 0) {
+            return false;
+        }
+        return true;
     }
 
     private CustomResponseMessage createCustomResponse(List<List> allCandidates){
         CustomResponseMessage cm = new CustomResponseMessage();
-        cm.setValid(allCandidates.get(0));
-        cm.setInvalid(allCandidates.get(1));
+        cm.setInsert(allCandidates.get(1));
+        cm.setUpdate(allCandidates.get(2));
+        cm.setInvalid(allCandidates.get(3));
         cm.setTimestamp(new Date());
         return cm;
+    }
+
+    private List<List> addAllCandidates(List<Candidate> candidates,
+                                        List<Candidate> candidatesForInsert,
+                                        List<Candidate> candidatesForUpdate,
+                                        List<String> listErrors){
+
+        List<List> allCandidates = new ArrayList<>();
+        allCandidates.add(candidates);
+        allCandidates.add(candidatesForInsert);
+        allCandidates.add(candidatesForUpdate);
+        allCandidates.add(listErrors);
+        return allCandidates;
+
     }
 
 

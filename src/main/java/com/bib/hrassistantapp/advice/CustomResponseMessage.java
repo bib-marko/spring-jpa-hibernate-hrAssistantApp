@@ -8,7 +8,8 @@ import java.util.List;
 
 @Data
 public class CustomResponseMessage {
-    List<Candidate> valid;
+    List<Candidate> insert;
+    List<Candidate> update;
     List<String> invalid;
     Date timestamp;
 }
