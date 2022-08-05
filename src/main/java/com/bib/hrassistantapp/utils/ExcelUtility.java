@@ -34,7 +34,7 @@ public class ExcelUtility {
         CellStyle cellStyle = wb.createCellStyle();
         CreationHelper creationHelper = wb.getCreationHelper();
         cellStyle.setDataFormat((creationHelper.createDataFormat().getFormat("dd/mm/yyyy")));
-        cell.setCellStyle(cellStyle);;
+        cell.setCellStyle(cellStyle);
         return cell.getDateCellValue();
 
     }
