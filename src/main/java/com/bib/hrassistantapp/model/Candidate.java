@@ -27,9 +27,6 @@ public class Candidate {
     private Long id;
 
     @Column(nullable = false)
-    private Long uuid;
-
-    @Column(nullable = false)
     @JsonProperty("full_name")
     @NotBlank(message = "Full Name is mandatory")
     private String fullName;

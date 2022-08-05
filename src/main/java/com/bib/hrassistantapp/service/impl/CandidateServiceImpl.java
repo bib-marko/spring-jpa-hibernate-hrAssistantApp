@@ -31,7 +31,7 @@ public class CandidateServiceImpl implements CandidateService {
         try{
             return candidateRepository.save(candidate);
         }catch (DataIntegrityViolationException e){
-            throw new EntityAlreadyExistException("Candidate uuid ["+candidate.getUuid()+"] already exist");
+            throw new EntityAlreadyExistException("Candidate with email ["+candidate.getEmail()+"] already exist");
         }
     }
 

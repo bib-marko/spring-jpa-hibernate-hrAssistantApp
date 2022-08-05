@@ -28,6 +28,9 @@ public class ExcelUtility {
 
     public static Date getDateValue(XSSFWorkbook wb, Row row, int cellNo) {
         Cell cell = row.getCell(cellNo);
+        if (cell.getNumericCellValue() == 0){
+            return null;
+        }
         CellStyle cellStyle = wb.createCellStyle();
         CreationHelper creationHelper = wb.getCreationHelper();
         cellStyle.setDataFormat((creationHelper.createDataFormat().getFormat("dd/mm/yyyy")));
@@ -37,9 +40,9 @@ public class ExcelUtility {
     }
 
     public static boolean checkExcelHeaders(XSSFRow headerRow){
-        List<String> headerList = new ArrayList<>(Arrays.asList("uuid","full_name","position","contact_number","email",
-                "date_endorsed", "overall_status", "hiring_manager", "paper_screening_status", "tech_interview_schedule",
-                "interview_result", "offer_status", "offer_date", "is_rejection_email_sent","onboarding_date", "updated_at", "created_at"));
+        List<String> headerList = new ArrayList<>(Arrays.asList("No.","Name","","Position","Contact Number",
+                "Email", "Date Endorsed", "Overall Status", "Hiring Manager", "Paper Screening\n (Passed / Failed)",
+                "Technical Interview Schedule", "Interview Result\n (Passed / Failed)", "Offer\n Accepted / Declined", "Offer Date","On-boarding Date", "Rejection Email"));
         Cell cell;
         for (int i = 0; i < headerRow.getPhysicalNumberOfCells(); i++) {
             cell = headerRow.getCell(i);
