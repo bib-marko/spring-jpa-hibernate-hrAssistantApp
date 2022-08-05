@@ -69,5 +69,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_ACCEPTABLE);
     }
 
+    @ExceptionHandler(value = ExportEmailReportErrorException.class)
+    public ResponseEntity<Object> exception (ExportEmailReportErrorException exception){
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
 }
 

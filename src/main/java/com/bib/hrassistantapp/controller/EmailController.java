@@ -3,10 +3,9 @@ package com.bib.hrassistantapp.controller;
 import com.bib.hrassistantapp.model.EmailDetails;
 import com.bib.hrassistantapp.service.EmailService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 public class EmailController {
@@ -47,5 +46,9 @@ public class EmailController {
         return emailService.sendMailWithHTML(position,status,subject,template,hr,followUpDate);
     }
 
+    @GetMapping("/send/export/{id}")
+    public ResponseEntity<String> export(HttpServletResponse response, @PathVariable(value = "id") Long id) {
+        return emailService.exportEmailReport(response, id);
+    }
 
 }
