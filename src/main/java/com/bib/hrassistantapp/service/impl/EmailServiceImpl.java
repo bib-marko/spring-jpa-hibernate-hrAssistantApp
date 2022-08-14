@@ -1,31 +1,36 @@
 package com.bib.hrassistantapp.service.impl;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 
-import com.bib.hrassistantapp.advice.EmailSendingFailedException;
-import com.bib.hrassistantapp.advice.ExportEmailReportErrorException;
+import com.bib.hrassistantapp.advice.*;
 import com.bib.hrassistantapp.model.Candidate;
 import com.bib.hrassistantapp.model.EmailDetails;
 import com.bib.hrassistantapp.model.EmailReport;
 import com.bib.hrassistantapp.model.EmailSentHistory;
+import com.bib.hrassistantapp.model.dto.BuildEmailDTO;
 import com.bib.hrassistantapp.repository.CandidateRepository;
 import com.bib.hrassistantapp.repository.EmailReportRepository;
 import com.bib.hrassistantapp.repository.EmailSentHistoryRepository;
 import com.bib.hrassistantapp.repository.TemplateRepository;
 import com.bib.hrassistantapp.service.EmailService;
-import com.bib.hrassistantapp.utils.EmailReportExcelGenerator;
-import com.bib.hrassistantapp.utils.EmailUtility;
+import com.bib.hrassistantapp.utils.*;
+import lombok.SneakyThrows;
+import lombok.var;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -35,7 +40,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletResponse;
 
 
 @Slf4j
@@ -53,6 +57,8 @@ public class EmailServiceImpl implements EmailService {
 
     private final EmailReportRepository emailReportRepository;
 
+
+
     public EmailServiceImpl(JavaMailSender javaMailSender, TemplateRepository templateRepository, CandidateRepository candidateRepository, EmailSentHistoryRepository emailSentHistoryRepository, EmailReportRepository emailReportRepository) {
         this.javaMailSender = javaMailSender;
         this.templateRepository = templateRepository;
@@ -60,61 +66,35 @@ public class EmailServiceImpl implements EmailService {
         this.emailReportRepository = emailReportRepository;
     }
 
-    public ResponseEntity<String> sendSimpleMail(EmailDetails details)
-    {
-        String [] recipient = details.getRecipient().replaceAll(" ", "").split(",");
-        return sendMessage(recipient, details, "to");
-    }
-
-    @Override
-    public ResponseEntity<String> sendSimpleMailWithCC(EmailDetails details) {
-        String [] recipient = details.getRecipient().replaceAll(" ", "").split(",");
-        return sendMessage(recipient, details, "cc");
-    }
-
-    @Override
-    public ResponseEntity<String> sendSimpleMailWithBCC(EmailDetails details) {
-        String [] recipient = details.getRecipient().replaceAll(" ", "").split(",");
-        return sendMessage(recipient, details, "bcc");
-    }
-
-    private ResponseEntity<String> sendMessage(String[] recipient, EmailDetails details, String emailType) {
-        try {
-            SimpleMailMessage mailMessage= new SimpleMailMessage();
-            mailMessage.setFrom(sender);
-            if(emailType.equals("to")){
-                mailMessage.setTo(recipient);
-            }else if(emailType.equals("cc")){
-                mailMessage.setCc(recipient);
-            }else{
-                mailMessage.setBcc(recipient);
-            }
-            mailMessage.setText(details.getMsgBody());
-            mailMessage.setSubject(details.getSubject());
-            javaMailSender.send(mailMessage);
-            return new ResponseEntity<>("Mail sent Successfully", HttpStatus.OK);
-        }catch (Exception e) {
-            throw new EmailSendingFailedException();
-        }
-
-    }
-
-    public ResponseEntity<String> sendMailWithAttachment(EmailDetails details){
+    public ResponseEntity<String> sendSimpleMail(EmailDetails details) {
 
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper;
 
+
         try {
             mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
             mimeMessageHelper.setFrom(sender);
-            String [] rcp = details.getRecipient().split(",");
-            mimeMessageHelper.setTo(rcp);
+
+            if (details.getRecipientTO() != null) {
+                mimeMessageHelper.setTo(EmailUtility.formatEmailsToArray(details.getRecipientTO()));
+            }
+            if (details.getRecipientCC() != null) {
+                mimeMessageHelper.setCc(EmailUtility.formatEmailsToArray(details.getRecipientCC()));
+            }
+            if (details.getRecipientBCC() != null) {
+                mimeMessageHelper.setBcc(EmailUtility.formatEmailsToArray(details.getRecipientBCC()));
+            }
+
             mimeMessageHelper.setText(details.getMsgBody());
             mimeMessageHelper.setSubject(details.getSubject());
 
-            FileSystemResource file= new FileSystemResource(new File(details.getAttachment()));
-            mimeMessageHelper.addAttachment(Objects.requireNonNull(file.getFilename()), file);
-            javaMailSender.send(mimeMessage);
+            if (details.getAttachment() != null) {
+                FileSystemResource file = new FileSystemResource(new File(details.getAttachment()));
+                mimeMessageHelper.addAttachment(Objects.requireNonNull(file.getFilename()), file);
+            }
+
+            //javaMailSender.send(mimeMessage);
             return new ResponseEntity<>("Mail sent Successfully", HttpStatus.OK);
         } catch (MessagingException e) {
             throw new EmailSendingFailedException();
@@ -122,68 +102,42 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public ResponseEntity<String> sendMailWithHTML(String position, String status, String subject, String template, String hrName, String followUpDate) {
+    public ResponseEntity<String> sendMailWithHTML(BuildEmailDTO buildEmailDTO) {
 
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper;
+
         try {
             mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
             mimeMessageHelper.setFrom(sender);
-            position = position.equals("all") ? " " : position;
-            List<Candidate> list = candidateRepository.findAll("", position, status);
-            mimeMessageHelper.setTo(EmailUtility.formatEmails(list));
-            mimeMessageHelper.setText(EmailUtility.formatHTMLbody(templateRepository.findTemplateTitle(template)), true);
-            mimeMessageHelper.setSubject(subject);
-            javaMailSender.send(mimeMessage);
-            emailSentReport(list, template, hrName, followUpDate, subject);
+
+            buildEmailDTO.setPosition(EmailUtility.validateJobPosition(buildEmailDTO.getPosition()));
+            List<Candidate> list = candidateRepository.findAll("", buildEmailDTO.getPosition(), buildEmailDTO.getStatus());
+            try {
+                mimeMessageHelper.setTo(EmailUtility.formatEmails(list));
+            } catch (MessagingException e) {
+                throw new CandidateStatusNotFoundErrorException(String.format("Candidate with Status: [%s] is not existing to the database!", buildEmailDTO.getStatus()));
+            }
+            mimeMessageHelper.setText(EmailUtility.formatHTMLbody(templateRepository.findTemplateTitle(buildEmailDTO.getTemplate())), true);
+            mimeMessageHelper.setSubject(buildEmailDTO.getSubject());
+            EmailReportUtil.emailSentReport(list, buildEmailDTO.getTemplate(), buildEmailDTO.getHr(), buildEmailDTO.getFollowUpDate(), buildEmailDTO.getSubject(), emailReportRepository);
             return new ResponseEntity<>("Mail sent Successfully", HttpStatus.OK);
         } catch (MessagingException e) {
             throw new EmailSendingFailedException();
         }
     }
+    
 
 
-    private void emailSentReport(List<Candidate> list, String template, String hrName, String followUpDate, String subject) {
-        List<EmailSentHistory> emailSentHistoryList = new ArrayList<>();
-        EmailReport emailReport = new EmailReport();
-        emailReport.setHr(hrName);
-        emailReport.setTemplate(template);
-        emailReport.setSubject(subject);
-
-        for (Candidate details : list) {
-            EmailSentHistory emailReportDetails = new EmailSentHistory();
-            emailReportDetails.setFullName(details.getFullName());
-            emailReportDetails.setEmail(details.getEmail());
-            emailReportDetails.setStatus(details.getOverallStatus());
-            emailReportDetails.setPosition(details.getPosition());
-            emailReportDetails.setLastFollowUpdate(followUpDate);
-
-            emailSentHistoryList.add(emailReportDetails);
-        }
-
-        emailReport.setEmailSentHistoryList(emailSentHistoryList);
-        emailReportRepository.save(emailReport);
-    }
-
+    @SneakyThrows
     @Override
-    public ResponseEntity<String> exportEmailReport(HttpServletResponse response, Long id) {
-        response.setContentType("application/octet-stream");
-        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
-        String currentDateTime = dateFormatter.format(new Date());
+    public ResponseEntity<String> exportEmailReport(Long id) {
 
-        String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=EmailReport-" + currentDateTime + ".xlsx";
-        response.setHeader(headerKey, headerValue);
-
-        try {
-            Optional<EmailReport> emailReport = emailReportRepository.getEmailReportById(id);
-            EmailReportExcelGenerator generator = new EmailReportExcelGenerator(emailReport);
-            generator.generateExcelFile(response);
-            return new ResponseEntity<>(String.format("Email Report ID: %d, is now successfully exported", id), HttpStatus.OK);
+        try{
+            String filename = "Export_Email_Report";
+            return new ResponseEntity(ExcelUtility.export(id, filename, emailReportRepository), HttpStatus.OK);
         } catch (RuntimeException | IOException e) {
             throw new ExportEmailReportErrorException(String.format("Email Report ID: %d is not existing to the database!", id));
         }
     }
-
-
 }

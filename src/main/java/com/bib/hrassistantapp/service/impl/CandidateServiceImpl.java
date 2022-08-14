@@ -70,9 +70,7 @@ public class CandidateServiceImpl implements CandidateService {
         String position = pageOption.getPositionFilter();
         String fullName = pageOption.getFullNameSearch();
 
-        Page<Candidate> candidates = candidateRepository.findAll(fullName, position, PageRequest.of(--page,pageSize));
-
-        return candidates;
+        return candidateRepository.findAll(fullName, position, PageRequest.of(--page,pageSize));
     }
 
 

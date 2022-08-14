@@ -1,6 +1,7 @@
 package com.bib.hrassistantapp.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ import java.util.List;
 @Setter
 @Entity
 @EnableJpaAuditing
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class EmailReport {
 
         @Id
@@ -24,22 +26,21 @@ public class EmailReport {
         @Column(name = "id", nullable = false)
         private Long id;
 
-       private String template;
+        private String template;
 
         @Column(nullable = false)
-        @JsonProperty("subject")
         private String subject;
 
         @Column(name = "hr_incharge", nullable = false)
         private String hr;
 
         @Column(nullable = false)
-        @JsonProperty("created_at")
         private Date createdAt;
 
         @PrePersist
         public void onPrePersist () {
-            this.setCreatedAt(new Date());
+                if(this.getCreatedAt() == null)
+                this.setCreatedAt(new Date());
         }
 
         @OneToMany(targetEntity = EmailSentHistory.class, cascade = CascadeType.ALL)

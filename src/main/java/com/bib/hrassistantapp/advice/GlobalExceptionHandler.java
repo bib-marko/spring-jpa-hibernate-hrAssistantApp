@@ -74,5 +74,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(value = CandidateStatusNotFoundErrorException.class)
+    public ResponseEntity<Object> exception (CandidateStatusNotFoundErrorException exception){
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
 }
 

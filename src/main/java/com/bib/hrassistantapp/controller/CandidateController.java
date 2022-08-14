@@ -67,7 +67,6 @@ public class CandidateController {
         pageOption.setPositionFilter(position.orElse(""));
         pageOption.setFullNameSearch(fullName.orElse(""));
 
-        Page<Candidate> candidateWithPagination = candidateService.getCandidateWithPaginationAndFilters(pageOption);
-        return candidateWithPagination;
+        return candidateService.getCandidateWithPaginationAndFilters(pageOption);
     }
 }

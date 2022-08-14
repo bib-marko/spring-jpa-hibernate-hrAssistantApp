@@ -1,7 +1,6 @@
 package com.bib.hrassistantapp.utils;
 
 import com.bib.hrassistantapp.model.Candidate;
-
 import java.util.List;
 
 public class EmailUtility {
@@ -18,4 +17,13 @@ public class EmailUtility {
         }
         return arr.toString().replaceAll(" ", "").split(",");
     }
+
+    public static String[] formatEmailsToArray(String recipientTO) {
+        return recipientTO.replaceAll(" ", "").split(",");
+    }
+
+    public static String validateJobPosition(String position) {
+        return position.equals("all") ? " " : position;
+    }
+
 }
