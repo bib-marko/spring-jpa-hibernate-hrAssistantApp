@@ -1,6 +1,5 @@
 package com.bib.hrassistantapp.controller;
 
-import com.bib.hrassistantapp.model.EmailDetails;
 import com.bib.hrassistantapp.model.dto.BuildEmailDTO;
 import com.bib.hrassistantapp.service.EmailService;
 import org.springframework.http.ResponseEntity;
@@ -15,14 +14,9 @@ public class EmailController {
         this.emailService = emailService;
     }
 
-    @PostMapping("/sendSimpleMail/")
-    public ResponseEntity<String> sendMail(@RequestBody EmailDetails details){
-        return emailService.sendSimpleMail(details);
-    }
-
-    @PostMapping("/sendHtmlEmail/")
-    public ResponseEntity<String> sendHtmlEmail(@RequestBody BuildEmailDTO buildEmailDTO){
-        return emailService.sendMailWithHTML(buildEmailDTO);
+    @PostMapping("/sendMail")
+    public ResponseEntity<String> sendMail(@RequestBody BuildEmailDTO buildEmailDTO){
+        return emailService.sendMail(buildEmailDTO);
     }
 
     @GetMapping("/send/export/{id}")

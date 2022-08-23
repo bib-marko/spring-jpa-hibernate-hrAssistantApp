@@ -27,8 +27,24 @@ public class EmailReportUtil {
 
             emailSentHistoryList.add(emailReportDetails);
         }
+        
         emailReport.setEmailSentHistoryList(emailSentHistoryList);
         emailReportRepository.save(emailReport);
     }
 
+    public static void emailSentReport(List<String> list, String hrName, String subject, EmailReportRepository emailReportRepository) {
+        List<EmailSentHistory> emailSentHistoryList = new ArrayList<>();
+        EmailReport emailReport = new EmailReport();
+        emailReport.setHr(hrName);
+        emailReport.setSubject(subject);
+
+        for (String details : list) {
+            EmailSentHistory emailReportDetails = new EmailSentHistory();
+            emailReportDetails.setEmail(details);
+            emailSentHistoryList.add(emailReportDetails);
+        }
+
+        emailReport.setEmailSentHistoryList(emailSentHistoryList);
+        emailReportRepository.save(emailReport);
+    }
 }

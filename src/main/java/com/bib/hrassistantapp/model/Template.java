@@ -39,6 +39,7 @@ public class Template {
     @JsonProperty("updated_at")
     private Date updatedAt;
 
+
     @PrePersist
     public void onPrePersist () {
         this.setCreatedAt(new Date());

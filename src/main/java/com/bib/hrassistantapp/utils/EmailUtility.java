@@ -18,8 +18,8 @@ public class EmailUtility {
         return arr.toString().replaceAll(" ", "").split(",");
     }
 
-    public static String[] formatEmailsToArray(String recipientTO) {
-        return recipientTO.replaceAll(" ", "").split(",");
+    public static String[] formatEmailsToArray(String recipient) {
+        return recipient.replaceAll(" ", "").split(",");
     }
 
     public static String validateJobPosition(String position) {
