@@ -5,8 +5,11 @@ import com.bib.hrassistantapp.advice.TemplateTitleErrorException;
 import com.bib.hrassistantapp.model.Template;
 import com.bib.hrassistantapp.repository.TemplateRepository;
 import com.bib.hrassistantapp.service.TemplateService;
+import com.bib.hrassistantapp.utils.PageOption;
 import com.bib.hrassistantapp.utils.TemplateUtility;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -61,6 +64,15 @@ public class TemplateServiceImpl implements TemplateService {
     @Override
     public List<String> getEmailTemplate(String templateBody) {
         return Collections.singletonList(templateRepository.findTemplateTitle(templateBody));
+    }
+
+    @Override
+    public Page<Template> getTemplateWithPaginationAndFilters(PageOption pageOption) {
+        Integer page = pageOption.getPage();
+        Integer pageSize = pageOption.getPageSize();
+        String title = pageOption.getPositionFilter();
+
+        return templateRepository.findAll(title, PageRequest.of(--page,pageSize));
     }
 
 }

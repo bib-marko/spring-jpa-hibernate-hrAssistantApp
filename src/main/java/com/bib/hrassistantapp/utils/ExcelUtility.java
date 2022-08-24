@@ -116,7 +116,6 @@ public class ExcelUtility {
 
     }
 
-
     private static void createCell(Sheet sheet, Row row, int columnCount, Object valueOfCell, CellStyle style, XSSFWorkbook workbook) {
         sheet.autoSizeColumn(columnCount);
         Cell cell = row.createCell(columnCount);
